@@ -51,7 +51,7 @@ public class PlayerActorScript : MonoBehaviour
         //input polling
         Vector2 moveValue = moveAction.ReadValue<Vector2>().normalized * movementAcceleration;
         Vector2 lookValue = lookAction.ReadValue<Vector2>() * lookSpeed;
-        float jumpValue = jumpAction.ReadValue<float>();
+        bool jumpValue = jumpAction.ReadValue<float>() > 0;
 
         //moving
         Vector2 horizontalVelocity = new Vector2(rb.linearVelocity.x, rb.linearVelocity.z);
@@ -74,8 +74,11 @@ public class PlayerActorScript : MonoBehaviour
         //gross. anyways
         
         //jumping
-        //TODO jumping
-
+        
+        if(isGrounded && jumpValue)
+        {
+            rb.AddRelativeForce(new Vector3(0, jumpForce, 0));
+        }
 
     }
 
