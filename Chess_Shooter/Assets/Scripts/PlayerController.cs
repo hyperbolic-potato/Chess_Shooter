@@ -17,6 +17,9 @@ public class PlayerController : MonoBehaviour
     
     public float speed = 5f;
     public float sensitivity = .7f;
+    public float jumpSpeed = 5f;
+
+    bool isJumping;
 
     void Start()
     {
@@ -42,12 +45,17 @@ public class PlayerController : MonoBehaviour
         playerCam.transform.rotation = Quaternion.Euler(-cameraRotation.y, cameraRotation.x, 0);
         transform.rotation = Quaternion.AngleAxis(cameraRotation.x, Vector3.up);
 
-        //Horizontal Movement System
+        //Movement System
 
         Vector3 tempMove = rb.linearVelocity;
 
         tempMove.x = inputY * speed;
         tempMove.z = inputX * speed;
+
+        if (isJumping)
+        {
+            tempMove.y = jumpSpeed;
+        }
 
         rb.linearVelocity = (tempMove.x * transform.forward) +
                             (tempMove.y * transform.up) +
@@ -61,6 +69,11 @@ public class PlayerController : MonoBehaviour
 
         inputX = inputAxis.x;
         inputY = inputAxis.y;
+    }
+
+    public void Jump(InputAction.CallbackContext context)
+    {
+        isJumping = context.ReadValue<float>() > 0;
     }
 
 }
