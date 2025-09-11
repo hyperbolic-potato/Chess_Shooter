@@ -5,43 +5,54 @@ public class PlayerController : MonoBehaviour
 {
 
     Rigidbody rb;
-    Transform camTransform;
+    
+
+    public Vector3 cameraOffset = new Vector3(0f, .5f, .25f);
+    Vector2 cameraRotation = Vector2.zero;
+    Camera playerCam;
+    InputAction lookAxis;
 
     float inputX;
     float inputY;
-
-    float inputRot;
-    float inputTilt;
     
-
     public float speed = 5f;
-    public float sensitivity = 5f;
+    public float sensitivity = .7f;
 
     void Start()
     {
         rb = GetComponent<Rigidbody>();
-        camTransform = GetComponent<Camera>().gameObject.transform;
+        playerCam = Camera.main;
+        lookAxis = GetComponent<PlayerInput>().currentActionMap.FindAction("Look");
+
+        Cursor.visible = false;
+        Cursor.lockState = CursorLockMode.Locked;
     }
 
     private void Update()
     {
+        //Camera Handler
+
+        playerCam.transform.position = transform.position + cameraOffset;
+
+        cameraRotation.x += lookAxis.ReadValue<Vector2>().x * sensitivity;
+        cameraRotation.y += lookAxis.ReadValue<Vector2>().y * sensitivity;
+
+        cameraRotation.y = Mathf.Clamp(cameraRotation.y, -90, 90);
+
+        playerCam.transform.rotation = Quaternion.Euler(-cameraRotation.y, cameraRotation.x, 0);
+        transform.rotation = Quaternion.AngleAxis(cameraRotation.x, Vector3.up);
+
+        //Horizontal Movement System
+
         Vector3 tempMove = rb.linearVelocity;
 
         tempMove.x = inputY * speed;
         tempMove.z = inputX * speed;
-        // vvv naive vvv
-        Vector3 charRotate = new Vector3(0, inputRot * sensitivity, 0);
-        
-        transform.Rotate(charRotate);
 
-        Vector3 camTilt += new Vector3(0, 0, 0); //TODO this
-
-        camTransform.localRotation = camTilt;
-
-        // ^^^ naive ^^^
         rb.linearVelocity = (tempMove.x * transform.forward) +
                             (tempMove.y * transform.up) +
                             (tempMove.z * transform.right);
+
     }
 
     public void Move(InputAction.CallbackContext context)
@@ -52,13 +63,4 @@ public class PlayerController : MonoBehaviour
         inputY = inputAxis.y;
     }
 
-    public void NaiveLook(InputAction.CallbackContext context)
-    {
-        Vector2 inputAxis = context.ReadValue<Vector2>();
-
-        inputRot = inputAxis.x;
-
-        inputTilt += inputAxis.y;
-        inputTilt = Mathf.Clamp(inputTilt, -90, 90); //TODO fix this
-    }
 }
