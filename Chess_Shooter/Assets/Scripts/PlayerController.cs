@@ -14,12 +14,16 @@ public class PlayerController : MonoBehaviour
 
     float inputX;
     float inputY;
+    float coyoteTime;
     
     public float speed = 5f;
     public float sensitivity = .7f;
     public float jumpSpeed = 5f;
+    public float maxGroundingSlope = 30f;
+    public float jumpGrace = 5f;
 
     bool isJumping;
+    bool isGrounded;
 
     void Start()
     {
@@ -45,6 +49,10 @@ public class PlayerController : MonoBehaviour
         playerCam.transform.rotation = Quaternion.Euler(-cameraRotation.y, cameraRotation.x, 0);
         transform.rotation = Quaternion.AngleAxis(cameraRotation.x, Vector3.up);
 
+        //Quaternion playerRotation = Quaternion.identity;
+        //playerRotation.y = playerCam.transform.rotation.y;
+        //    transform.rotation = playerRotation;
+
         //Movement System
 
         Vector3 tempMove = rb.linearVelocity;
@@ -52,15 +60,26 @@ public class PlayerController : MonoBehaviour
         tempMove.x = inputY * speed;
         tempMove.z = inputX * speed;
 
-        if (isJumping)
+        if (isJumping && coyoteTime > 0)
         {
             tempMove.y = jumpSpeed;
+            coyoteTime = 0;
         }
 
         rb.linearVelocity = (tempMove.x * transform.forward) +
                             (tempMove.y * transform.up) +
                             (tempMove.z * transform.right);
 
+        //coyote frames
+
+        if (isGrounded)
+        {
+            coyoteTime = jumpGrace;
+        }
+        else if (coyoteTime > 0)
+        {
+            coyoteTime -= 1;
+        }
     }
 
     public void Move(InputAction.CallbackContext context)
@@ -74,6 +93,22 @@ public class PlayerController : MonoBehaviour
     public void Jump(InputAction.CallbackContext context)
     {
         isJumping = context.ReadValue<float>() > 0;
+    }
+
+    public void OnCollisionStay(Collision collision)
+    {
+
+        isGrounded = false;
+
+        for (int i = 0; i < collision.contactCount; i++)
+        {
+            if (Vector2.Angle(collision.GetContact(i).normal, Vector3.up) < maxGroundingSlope) isGrounded = true;
+        }
+        
+    }
+    private void OnCollisionExit(Collision collision)
+    {
+        isGrounded = false;
     }
 
 }
