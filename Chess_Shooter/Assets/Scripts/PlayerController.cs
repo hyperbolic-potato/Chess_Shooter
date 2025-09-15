@@ -98,8 +98,6 @@ public class PlayerController : MonoBehaviour
     public void OnCollisionStay(Collision collision)
     {
 
-        isGrounded = false;
-
         for (int i = 0; i < collision.contactCount; i++)
         {
             if (Vector2.Angle(collision.GetContact(i).normal, Vector3.up) < maxGroundingSlope) isGrounded = true;
