@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.SceneManagement;
 
 public class PlayerController : MonoBehaviour
 {
@@ -15,14 +16,23 @@ public class PlayerController : MonoBehaviour
     float inputX;
     float inputY;
     float coyoteTime;
+    float iTime;
     
     public float speed = 5f;
     public float sensitivity = .7f;
     public float jumpSpeed = 5f;
     public float maxGroundingSlope = 30f;
-    public float jumpGrace = 5f;
+    public float jumpGrace = 0.5f;
+    public float maxITime = 0.5f;
+
+    public int maxExtraJumps = 1;
+    public int health = 5;
+    public int maxHealth = 5;
+
+    int extraJumps = 0;
 
     bool isJumping;
+    bool deltaJump;
     bool isGrounded;
 
     void Start()
@@ -30,6 +40,8 @@ public class PlayerController : MonoBehaviour
         rb = GetComponent<Rigidbody>();
         playerCam = Camera.main;
         lookAxis = GetComponent<PlayerInput>().currentActionMap.FindAction("Look");
+
+        health = maxHealth;
 
         Cursor.visible = false;
         Cursor.lockState = CursorLockMode.Locked;
@@ -60,11 +72,23 @@ public class PlayerController : MonoBehaviour
         tempMove.x = inputY * speed;
         tempMove.z = inputX * speed;
 
-        if (isJumping && coyoteTime > 0)
+
+
+
+
+        if (isJumping && coyoteTime > 0 && isJumping != deltaJump)
         {
             tempMove.y = jumpSpeed;
             coyoteTime = 0;
+
+        } else if (isJumping && extraJumps > 0 && isJumping != deltaJump)
+        {
+            tempMove.y = jumpSpeed;
+            extraJumps--;
         }
+
+
+        deltaJump = isJumping;
 
         rb.linearVelocity = (tempMove.x * transform.forward) +
                             (tempMove.y * transform.up) +
@@ -75,10 +99,24 @@ public class PlayerController : MonoBehaviour
         if (isGrounded)
         {
             coyoteTime = jumpGrace;
+            extraJumps = maxExtraJumps;
         }
         else if (coyoteTime > 0)
         {
-            coyoteTime -= 1;
+            coyoteTime -= Time.deltaTime;
+        }
+
+        //invulnerability frames
+        if(iTime > 0)
+        {
+            iTime -= Time.deltaTime;
+        }
+
+
+        //health & damage
+        if (health <= 0)
+        {
+            SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
         }
     }
 
@@ -109,4 +147,31 @@ public class PlayerController : MonoBehaviour
         isGrounded = false;
     }
 
+    private void OnTriggerEnter(Collider other)
+    {
+        DamageUpdate(other);
+    }
+
+    private void OnCollisionEnter(Collision other)
+    {
+        DamageUpdate(other.collider);
+    }
+
+    private void DamageUpdate(Collider other)
+    {
+        if (other.tag == "Respawn")
+        {
+            health = 0;
+        }
+        if (other.tag == "Health" && health < maxHealth)
+        {
+            health++;
+            Destroy(other.gameObject);
+        }
+        if (other.tag == "Hazard" && iTime <= 0)
+        {
+            health--;
+            iTime = maxITime;
+        }
+    }
 }
