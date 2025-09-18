@@ -1,7 +1,7 @@
 using UnityEngine;
 using UnityEngine.AI;
 using System.Collections;
-public class BasicEnemyController : MonoBehaviour
+public class RookEnemyController : MonoBehaviour
 {
 
     public NavMeshAgent agent;
@@ -15,6 +15,9 @@ public class BasicEnemyController : MonoBehaviour
     public float attackSpeedMultiplyer;
 
     float aggroTimer;
+
+    int axis; //0, 1, 2 x y z
+    float offset;
 
     bool isNavigating = true;
 
@@ -34,14 +37,18 @@ public class BasicEnemyController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+
+        Vector3 difference = transform.position - playerTransform.position;
+
+
         //aggro
         if (isNavigating)
         {
-            agent.destination = playerTransform.position;
 
             if (agent.isStopped && playerTransform.position.magnitude - transform.position.magnitude < aggroRadius)
             {
                 agent.isStopped = false;
+                switchAxis(difference);
                 //Debug.Log("STOP. You violated the law. Pay the courts a fine or serve your sentence.");
 
             }
@@ -65,53 +72,69 @@ public class BasicEnemyController : MonoBehaviour
                 }
             }
         }
-
         
+
+        //movement on orthagonal axes
+
+
+        Debug.Log(offset);
+
+        if (agent.remainingDistance < 0.05f)
+        {
+            switchAxis(difference);
+        }
+
 
         //attacking
         if (Mathf.Abs(playerTransform.position.magnitude - transform.position.magnitude) < attackRadius && isNavigating)
         {
-            //initiating first part of the attack (sidestep)
             StartCoroutine(attack());
         }
     }
 
     IEnumerator attack()
     {
-        //initiating first part of the attack (sidestep)
-        agent.speed *= attackSpeedMultiplyer;
-        isNavigating = false;
-        agent.isStopped = true;
-        
+        yield return null;
+    }
 
-        Vector3 difference = playerTransform.position - transform.position;
-
-        // there's gotta be a better way to do this
-        int direction = Random.Range(0, 2);
-
-        if(direction == 0)
+    /*IEnumerator redirect()
+    {
+        while (isNavigating)
         {
-            direction = -1;
+            Vector3 difference = playerTransform.position - transform.position;
+
+            Vector3 playerPosX = new Vector3(playerTransform.position.x, 0, 0);
+            Vector3 playerPosY = new Vector3(0, playerTransform.position.y, 0);
+            Vector3 playerPosZ = new Vector3(0, 0, playerTransform.position.z);
+
+            Vector3 destination = playerPosX;
+
+            if (playerPosY.sqrMagnitude > destination.sqrMagnitude) destination = playerPosY;
+
+            if (playerPosZ.sqrMagnitude > destination.sqrMagnitude) destination = playerPosZ;
+
+            agent.destination = transform.position + destination;
+            yield return new WaitForSeconds(attackDelay);
         }
+    }*/
 
-        Vector3 sidestepPos = Quaternion.AngleAxis(45f * direction, Vector3.up) * difference * Mathf.Sqrt(2) / 2; //im so good at math look at me :>
+    void switchAxis(Vector3 difference)
+    {
+        if (difference.x > difference.y && difference.x > difference.z) axis = 0;
+        if (difference.y > difference.x && difference.y > difference.z) axis = 1;
+        if (difference.z > difference.x && difference.z > difference.y) axis = 2;
 
-        agent.destination = transform.position + sidestepPos;
-        agent.isStopped = false;
-
-        yield return new WaitForSeconds(attackDelay);
-
-        //initiating the 2nd part
-
-        
-
-        agent.destination = transform.position + Quaternion.AngleAxis(90f * -direction, Vector3.up) * sidestepPos;
-
-        yield return new WaitForSeconds(attackCooldown);
-
-        
-
-        agent.speed /= attackSpeedMultiplyer;
-        isNavigating = true;
+        switch (axis)
+        {
+            case 0:
+                agent.destination = transform.position + new Vector3(difference.x, 0, 0);
+                break;
+            case 1:
+                agent.destination = transform.position + new Vector3(0, difference.y, 0);
+                break;
+            case 2:
+                agent.destination = transform.position + new Vector3(0, 0, difference.z);
+                break;
+        }
     }
 }
