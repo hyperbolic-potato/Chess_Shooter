@@ -8,6 +8,8 @@ TagManager:
   - Hazard
   - Enemy
   - Environment
+  - EnemyWhite
+  - EnemyBlack
   layers:
   - Default
   - TransparentFX

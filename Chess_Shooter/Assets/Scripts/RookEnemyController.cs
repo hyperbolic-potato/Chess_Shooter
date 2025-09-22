@@ -5,6 +5,7 @@ public class RookEnemyController : MonoBehaviour
 {
 
     public NavMeshAgent agent;
+    public LayerMask environment;
     Transform playerTransform;
 
     public float aggroRadius;
@@ -18,6 +19,7 @@ public class RookEnemyController : MonoBehaviour
 
     int axis; //0, 1, 2 x y z
     float offset;
+    Vector2 destination;
 
     bool isNavigating = true;
 
@@ -120,21 +122,24 @@ public class RookEnemyController : MonoBehaviour
 
     void switchAxis(Vector3 difference)
     {
-        if (difference.x > difference.y && difference.x > difference.z) axis = 0;
-        if (difference.y > difference.x && difference.y > difference.z) axis = 1;
-        if (difference.z > difference.x && difference.z > difference.y) axis = 2;
+        if (Mathf.Abs(difference.x) > Mathf.Abs(difference.y) && Mathf.Abs(difference.x) > Mathf.Abs(difference.z)) axis = 0;
+        if (Mathf.Abs(difference.y) > Mathf.Abs(difference.x) && Mathf.Abs(difference.y) > Mathf.Abs(difference.z)) axis = 1;
+        if (Mathf.Abs(difference.z) > Mathf.Abs(difference.x) && Mathf.Abs(difference.z) > Mathf.Abs(difference.y)) axis = 2;
+
+
 
         switch (axis)
         {
             case 0:
-                agent.destination = transform.position + new Vector3(difference.x, 0, 0);
+                agent.destination = transform.position - new Vector3(difference.x, 0, 0);
                 break;
             case 1:
-                agent.destination = transform.position + new Vector3(0, difference.y, 0);
+                agent.destination = transform.position - new Vector3(0, difference.y, 0);
                 break;
             case 2:
-                agent.destination = transform.position + new Vector3(0, 0, difference.z);
+                agent.destination = transform.position - new Vector3(0, 0, difference.z);
                 break;
         }
     }
+ 
 }
