@@ -1,13 +1,18 @@
 using UnityEngine;
 using System.Collections;
+using UnityEngine.InputSystem;
 public class RigidbodyRookController : MonoBehaviour
 {
     Rigidbody rb;
     Vector3 difference;
     Transform playerTransform;
 
+    
+
     Vector3 axis;
     Vector3 deltaPos;
+
+
 
     public float speed = 5;
     public float delay = 1;

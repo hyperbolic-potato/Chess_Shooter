@@ -12,6 +12,12 @@ public class PlayerController : MonoBehaviour
     Vector2 cameraRotation = Vector2.zero;
     Camera playerCam;
     InputAction lookAxis;
+    public PlayerInput input;
+    public Transform weaponSlot;
+    public Weapon currentWeapon;
+    Ray interactRay;
+    RaycastHit interactHit;
+    GameObject pickupObject;
 
     float inputX;
     float inputY;
@@ -24,6 +30,7 @@ public class PlayerController : MonoBehaviour
     public float maxGroundingSlope = 30f;
     public float jumpGrace = 0.5f;
     public float maxITime = 0.5f;
+    public float interactDistance;
 
     public int maxExtraJumps = 1;
     public int health = 5;
@@ -35,13 +42,24 @@ public class PlayerController : MonoBehaviour
     bool deltaJump;
     bool isGrounded;
 
+    bool attacking = false;
+
     void Start()
     {
+        input = GetComponent<PlayerInput>();
+
+        interactRay = new Ray(transform.position, transform.forward);
+
+        
+
         rb = GetComponent<Rigidbody>();
         playerCam = Camera.main;
+        weaponSlot = playerCam.transform.GetChild(0);
         lookAxis = GetComponent<PlayerInput>().currentActionMap.FindAction("Look");
 
         health = maxHealth;
+
+
 
         Cursor.visible = false;
         Cursor.lockState = CursorLockMode.Locked;
@@ -65,6 +83,24 @@ public class PlayerController : MonoBehaviour
         //playerRotation.y = playerCam.transform.rotation.y;
         //    transform.rotation = playerRotation;
 
+        //Interact
+
+        interactRay.origin = playerCam.transform.position;
+        interactRay.direction = playerCam.transform.forward;
+
+        if(Physics.Raycast(interactRay, out interactHit, interactDistance))
+        {
+            if(interactHit.collider.tag == "Weapon")
+            {
+                pickupObject = interactHit.collider.gameObject;
+            }
+            else
+            {
+                pickupObject = null;
+            }
+        }
+
+        if (currentWeapon.holdToAttack && attacking) currentWeapon.fire();
         //Movement System
 
         Vector3 tempMove = rb.linearVelocity;
@@ -117,6 +153,47 @@ public class PlayerController : MonoBehaviour
         if (health <= 0)
         {
             SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+        }
+    }
+
+    //input functions
+    public void Attack(InputAction.CallbackContext context)
+    {
+        if (currentWeapon)
+        {
+            if (currentWeapon.holdToAttack)
+            {
+                if (context.ReadValueAsButton()) attacking = true; else attacking = false;
+            }
+            else if (context.ReadValueAsButton())
+            {
+                currentWeapon.fire();
+            }
+        }
+    }
+
+    public void Reload()
+    {
+        if (currentWeapon) currentWeapon.reload();
+    }
+
+    public void Interact()
+    {
+        if (pickupObject)
+        {
+            if (pickupObject.tag == "weapon")
+            {
+                pickupObject.GetComponent<Weapon>().equip(this);
+            }
+            else Reload();
+        }
+    }
+
+    public void DropWeapon()
+    {
+        if (currentWeapon)
+        {
+            currentWeapon.GetComponent<Weapon>().unequip();
         }
     }
 
