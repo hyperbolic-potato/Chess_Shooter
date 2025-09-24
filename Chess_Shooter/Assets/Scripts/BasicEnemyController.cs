@@ -13,14 +13,15 @@ public class BasicEnemyController : MonoBehaviour
     public float attackDelay;
     public float attackCooldown;
     public float attackSpeedMultiplyer;
+    public float maxITime = 0.5f;
 
     float aggroTimer;
+    public int health = 2;
+    public int maxHealth = 2;
+    float iTime;
 
     bool isNavigating = true;
 
-    public float maxHealth = 2;
-
-    float health;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -45,6 +46,7 @@ public class BasicEnemyController : MonoBehaviour
                 //Debug.Log("STOP. You violated the law. Pay the courts a fine or serve your sentence.");
 
             }
+
 
 
             if (!agent.isStopped)
@@ -74,6 +76,20 @@ public class BasicEnemyController : MonoBehaviour
             //initiating first part of the attack (sidestep)
             StartCoroutine(attack());
         }
+
+        //invulnerability frames
+        if (iTime > 0)
+        {
+            iTime -= Time.deltaTime;
+        }
+
+
+        //health & damage
+        if (health <= 0)
+        {
+            Destroy(this.gameObject);
+        }
+
     }
 
     IEnumerator attack()
@@ -113,5 +129,34 @@ public class BasicEnemyController : MonoBehaviour
 
         agent.speed /= attackSpeedMultiplyer;
         isNavigating = true;
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        DamageUpdate(other);
+    }
+
+    private void OnCollisionEnter(Collision other)
+    {
+        DamageUpdate(other.collider);
+    }
+
+    private void DamageUpdate(Collider other)
+    {
+        if (other.tag == "Respawn")
+        {
+            health = 0;
+        }
+        if (other.tag == "Health" && health < maxHealth)
+        {
+            health++;
+            Destroy(other.gameObject);
+        }
+        if (other.tag == "Hazard" && iTime <= 0)
+        {
+            health--;
+            iTime = maxITime;
+            agent.isStopped = false;
+        }
     }
 }

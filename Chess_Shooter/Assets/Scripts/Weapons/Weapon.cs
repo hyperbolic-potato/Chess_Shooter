@@ -15,6 +15,7 @@ public class Weapon : MonoBehaviour
     [Header("Meta Attributes")]
     public bool canFire = true;
     public bool holdToAttack = true;
+    public bool reloading = false;
     public int weaponID;
     public string weaponName;
 
@@ -42,13 +43,14 @@ public class Weapon : MonoBehaviour
 
     public void fire()
     {
-        if(canFire && clip > 0 && weaponID > -1)
+        
+        if(canFire && !reloading && (clip > 0 || clipSize == -1) && weaponID > -1)
         {
             weaponSpeaker.Play();
             GameObject p = Instantiate(projectile, firePoint.position, firePoint.rotation);
-            p.GetComponent<Rigidbody>().AddForce(firingDirection.transform.forward * projVelocity);
+            p.GetComponent<Rigidbody>().linearVelocity = firingDirection.transform.forward * projVelocity + player.rb.linearVelocity;
             Destroy(p, projLifespan);
-            clip--;
+            if ( clipSize != -1) clip--;
             canFire = false;
             StartCoroutine("cooldownFire", rof);
         }
@@ -75,7 +77,9 @@ public class Weapon : MonoBehaviour
                 ammo -= reloadCount;
             }
 
-            StartCoroutine("cooldownFire", reloadCooldown);
+            reloading = true;
+            canFire = false;
+            StartCoroutine("reloadingCooldown", reloadCooldown);
             return;
         }
     }
@@ -83,7 +87,6 @@ public class Weapon : MonoBehaviour
     public void equip(PlayerController player)
     {
         player.currentWeapon = this;
-
         transform.SetPositionAndRotation(player.weaponSlot.position, player.weaponSlot.rotation);
         transform.SetParent(player.weaponSlot);
 
@@ -107,11 +110,19 @@ public class Weapon : MonoBehaviour
         this.player = null;
     }
 
-    IEnumerator cooldownFire(float cooldownTime)
+    IEnumerator cooldownFire()
     {
-        yield return new WaitForSeconds(cooldownTime);
+        yield return new WaitForSeconds(rof);
         
         if(clip > 0)
             canFire = true;
+    }
+
+    IEnumerator reloadingCooldown()
+    {
+        yield return new WaitForSeconds(rof);
+
+        reloading = false;
+        canFire = true;
     }
 }

@@ -5,13 +5,13 @@ using UnityEngine.SceneManagement;
 public class PlayerController : MonoBehaviour
 {
 
-    Rigidbody rb;
+    public Rigidbody rb;
     
 
     public Vector3 cameraOffset = new Vector3(0f, .5f, .25f);
     Vector2 cameraRotation = Vector2.zero;
     Camera playerCam;
-    InputAction lookAxis;
+    public InputAction lookAxis;
     public PlayerInput input;
     public Transform weaponSlot;
     public Weapon currentWeapon;
@@ -49,8 +49,6 @@ public class PlayerController : MonoBehaviour
         input = GetComponent<PlayerInput>();
 
         interactRay = new Ray(transform.position, transform.forward);
-
-        
 
         rb = GetComponent<Rigidbody>();
         playerCam = Camera.main;
@@ -100,7 +98,7 @@ public class PlayerController : MonoBehaviour
             }
         }
 
-        if (currentWeapon.holdToAttack && attacking) currentWeapon.fire();
+        if (currentWeapon && currentWeapon.holdToAttack && attacking) currentWeapon.fire();
         //Movement System
 
         Vector3 tempMove = rb.linearVelocity;
@@ -174,16 +172,20 @@ public class PlayerController : MonoBehaviour
 
     public void Reload()
     {
-        if (currentWeapon) currentWeapon.reload();
+        if (currentWeapon && !currentWeapon.reloading) currentWeapon.reload();
     }
 
     public void Interact()
     {
         if (pickupObject)
         {
-            if (pickupObject.tag == "weapon")
+            if (pickupObject.tag == "Weapon")
             {
+                if (currentWeapon) DropWeapon();
+
                 pickupObject.GetComponent<Weapon>().equip(this);
+
+                pickupObject = null;
             }
             else Reload();
         }

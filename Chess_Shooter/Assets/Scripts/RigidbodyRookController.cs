@@ -60,7 +60,7 @@ public class RigidbodyRookController : MonoBehaviour
 
     private void FixedUpdate()
     {
-        Debug.Log(Physics.Raycast(new Ray(transform.position, difference)));
+        //Debug.Log(Physics.Raycast(new Ray(transform.position, difference)));
     }
 
     Vector3 GetLargestAxis(Vector3 difference)
