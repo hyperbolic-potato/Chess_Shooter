@@ -6999,29 +6999,9 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 826414373168187277, guid: 08d93f5837dbc0e438d35a6d1d34496c, type: 3}
-      propertyPath: aggroRadius
-      value: 20
-      objectReference: {fileID: 0}
-    - target: {fileID: 826414373168187277, guid: 08d93f5837dbc0e438d35a6d1d34496c, type: 3}
-      propertyPath: maxAggroTimer
-      value: 8
-      objectReference: {fileID: 0}
     - target: {fileID: 1821668826485469764, guid: 08d93f5837dbc0e438d35a6d1d34496c, type: 3}
       propertyPath: m_Name
       value: RigidbodyRook
-      objectReference: {fileID: 0}
-    - target: {fileID: 1821668826485469764, guid: 08d93f5837dbc0e438d35a6d1d34496c, type: 3}
-      propertyPath: m_IsActive
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 2442206614069939330, guid: 08d93f5837dbc0e438d35a6d1d34496c, type: 3}
-      propertyPath: m_UseGravity
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 2442206614069939330, guid: 08d93f5837dbc0e438d35a6d1d34496c, type: 3}
-      propertyPath: m_IsKinematic
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7806519474745644883, guid: 08d93f5837dbc0e438d35a6d1d34496c, type: 3}
       propertyPath: m_LocalPosition.x
@@ -7076,14 +7056,6 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 1004097418284358993, guid: de52165e22ef5fc419718e2081f4c8ad, type: 3}
-      propertyPath: aggroRadius
-      value: 10
-      objectReference: {fileID: 0}
-    - target: {fileID: 1004097418284358993, guid: de52165e22ef5fc419718e2081f4c8ad, type: 3}
-      propertyPath: attackRadius
-      value: 5
-      objectReference: {fileID: 0}
     - target: {fileID: 2734941751894476912, guid: de52165e22ef5fc419718e2081f4c8ad, type: 3}
       propertyPath: m_LocalPosition.x
       value: 13.48
@@ -7127,14 +7099,6 @@ PrefabInstance:
     - target: {fileID: 8852774660629943058, guid: de52165e22ef5fc419718e2081f4c8ad, type: 3}
       propertyPath: m_Name
       value: Pawn
-      objectReference: {fileID: 0}
-    - target: {fileID: 8852774660629943058, guid: de52165e22ef5fc419718e2081f4c8ad, type: 3}
-      propertyPath: m_IsActive
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 8852774660629943058, guid: de52165e22ef5fc419718e2081f4c8ad, type: 3}
-      propertyPath: m_TagString
-      value: Enemy
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

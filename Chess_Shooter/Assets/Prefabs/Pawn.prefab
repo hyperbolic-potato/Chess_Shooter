@@ -148,9 +148,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   agent: {fileID: 0}
-  aggroRadius: 5
+  aggroRadius: 10
   maxAggroTimer: 12
-  attackRadius: 2
+  attackRadius: 5
   attackDelay: 0.8
   attackCooldown: 1.5
   attackSpeedMultiplyer: 2
