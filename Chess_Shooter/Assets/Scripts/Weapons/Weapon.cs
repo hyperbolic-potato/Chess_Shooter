@@ -49,6 +49,7 @@ public class Weapon : MonoBehaviour
             weaponSpeaker.Play();
             GameObject p = Instantiate(projectile, firePoint.position, firePoint.rotation);
             p.GetComponent<Rigidbody>().linearVelocity = firingDirection.transform.forward * projVelocity + player.rb.linearVelocity;
+            p.tag = "PlayerDamage";
             Destroy(p, projLifespan);
             if ( clipSize != -1) clip--;
             canFire = false;

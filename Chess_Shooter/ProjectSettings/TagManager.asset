@@ -11,6 +11,15 @@ TagManager:
   - EnemyWhite
   - EnemyBlack
   - Weapon
+  - ui_health
+  - ui_pause
+  - weaponUI
+  - ui_clip
+  - ui_fireMode
+  - ui_ammo
+  - killzone
+  - gm
+  - PlayerDamage
   layers:
   - Default
   - TransparentFX

@@ -11,19 +11,38 @@ public class RigidbodyRookController : MonoBehaviour
 
     Vector3 axis;
     Vector3 deltaPos;
+    Vector3 emmissionPoint;
+    public GameObject bomb;
 
 
 
     public float speed = 5;
     public float delay = 1;
+    public float aggroRadius;
+    public float maxAggroTimer;
+    public float maxITime;
+    public float bombDelay;
+    public float bombForce;
+
+    public int health = 5;
+    
+
+    float aggroTimer;
+    float iTime;
+
 
     bool redirecting;
     bool isWalled;
+    bool isNavigating;
+    bool isBombing;
+    
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
         rb = GetComponent<Rigidbody>();
         playerTransform = GameObject.Find("PlayerActor").transform;
+
+        emmissionPoint = transform.GetChild(0).localPosition;
 
         difference = playerTransform.position - transform.position;
 
@@ -33,29 +52,82 @@ public class RigidbodyRookController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        difference = playerTransform.position - transform.position;
-        if (Vector3.Scale(axis, difference).magnitude < 0.5f)
-        {
-            rb.linearVelocity = Vector3.zero;
-            StartCoroutine(redirect(difference));
+
+        //aggro
+        
+        
             
-        }
-        if (!redirecting)
+
+            if (!isNavigating && (playerTransform.position - transform.position).magnitude < aggroRadius)
+            {
+            //Debug.Log("STOP. You violated the law. Pay the courts a fine or serve your sentence.");
+                isNavigating = true;
+
+            }
+
+
+
+            if (isNavigating)
+            {
+                if (playerTransform.position.magnitude - transform.position.magnitude > aggroRadius)
+                {
+                    aggroTimer -= Time.deltaTime;
+                }
+                else
+                {
+                    aggroTimer = maxAggroTimer;
+                }
+
+                if (aggroTimer <= 0)
+                {
+                    isNavigating = false;
+                    //Debug.Log("Must've been the wind.");
+                }
+            }
+
+        if (isNavigating)
         {
-            MoveAlongAxis(Vector3.Scale(axis, difference).normalized, speed);
+            rb.useGravity = false;
+            difference = playerTransform.position - transform.position;
+            if (Vector3.Scale(axis, difference).magnitude < 0.5f)
+            {
+                rb.linearVelocity = Vector3.zero;
+                StartCoroutine(redirect(difference));
 
+            }
+            if (!redirecting)
+            {
+                MoveAlongAxis(Vector3.Scale(axis, difference).normalized, speed);
+
+            }
+
+
+            if (!redirecting && isWalled)
+            {
+                axis = Vector3.up;
+            }
+
+            deltaPos = transform.position;
+
+            //attacking
+            if (axis != Vector3.up && axis != Vector3.zero && !redirecting && !isBombing)
+            {
+                StartCoroutine(Bomb());
+            }
         }
-
-
-        if (!redirecting && isWalled)
+        else
         {
-            axis = Vector3.up;
+            rb.useGravity = true;
         }
-
-        deltaPos = transform.position;
+        
         
 
-        
+        if(health <= 0)
+        {
+            Destroy(this.gameObject);
+        }
+        if (iTime > 0) iTime -= Time.deltaTime;
+
     }
 
     private void FixedUpdate()
@@ -83,6 +155,18 @@ public class RigidbodyRookController : MonoBehaviour
         redirecting = false;
     }
 
+    IEnumerator Bomb()
+    {
+        isBombing = true;
+        
+        GameObject b = Instantiate(bomb, null);
+        b.transform.position = transform.position + emmissionPoint;
+        b.GetComponent<Rigidbody>().AddForce(Vector3.up * bombForce);
+        yield return new WaitForSeconds(bombDelay);
+        isBombing = false;
+
+    }
+
     private void OnCollisionStay(Collision collision)
     {
         isWalled = false;
@@ -91,11 +175,37 @@ public class RigidbodyRookController : MonoBehaviour
             if (Mathf.Abs(collision.contacts[i].normal.y) < 0.05f)
             {
                 isWalled = true;
+                
             }
         }
 
         // if this works first try I'm converting to Islam.
 
         // INSH'ALLAH
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        DamageUpdate(other);
+    }
+
+    private void OnCollisionEnter(Collision other)
+    {
+        DamageUpdate(other.collider);
+    }
+
+    private void DamageUpdate(Collider other)
+    {
+        if (other.tag == "Respawn")
+        {
+            health = 0;
+        }
+        if (other.tag == "PlayerDamage" && iTime <= 0)
+        {
+            Debug.Log("ow!");
+            health--;
+            iTime = maxITime;
+            isNavigating = true;
+        }
     }
 }

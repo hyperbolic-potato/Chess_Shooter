@@ -40,7 +40,7 @@ public class BasicEnemyController : MonoBehaviour
         {
             agent.destination = playerTransform.position;
 
-            if (agent.isStopped && playerTransform.position.magnitude - transform.position.magnitude < aggroRadius)
+            if (agent.isStopped && (playerTransform.position - transform.position).magnitude < aggroRadius)
             {
                 agent.isStopped = false;
                 //Debug.Log("STOP. You violated the law. Pay the courts a fine or serve your sentence.");
@@ -51,7 +51,7 @@ public class BasicEnemyController : MonoBehaviour
 
             if (!agent.isStopped)
             {
-                if (playerTransform.position.magnitude - transform.position.magnitude > aggroRadius)
+                if ((playerTransform.position - transform.position).magnitude > aggroRadius)
                 {
                     aggroTimer -= Time.deltaTime;
                 }
@@ -71,7 +71,7 @@ public class BasicEnemyController : MonoBehaviour
         
 
         //attacking
-        if (Mathf.Abs(playerTransform.position.magnitude - transform.position.magnitude) < attackRadius && isNavigating)
+        if ((playerTransform.position - transform.position).magnitude < attackRadius && isNavigating)
         {
             //initiating first part of the attack (sidestep)
             StartCoroutine(attack());
@@ -147,12 +147,8 @@ public class BasicEnemyController : MonoBehaviour
         {
             health = 0;
         }
-        if (other.tag == "Health" && health < maxHealth)
-        {
-            health++;
-            Destroy(other.gameObject);
-        }
-        if (other.tag == "Hazard" && iTime <= 0)
+
+        if (other.tag == "Hazard" || other.tag == "PlayerDamage" && iTime <= 0)
         {
             health--;
             iTime = maxITime;

@@ -16,7 +16,7 @@ GameObject:
   - component: {fileID: 7968611024974012794}
   m_Layer: 0
   m_Name: Bomb
-  m_TagString: Untagged
+  m_TagString: Hazard
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -149,5 +149,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6168995578bcf9a42a5c54fa20f56379, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  fuzeTimer: 1.1
+  fuzeTimer: 5
+  impactFuze: 0.3
   explosion: {fileID: 2591453848339538648, guid: 110d34e421e177a42b1f0df521b8e9fb, type: 3}

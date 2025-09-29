@@ -3,6 +3,7 @@ using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 using TMPro;
 using Unity.VisualScripting;
+using UnityEngine.InputSystem;
 public class GameManager : MonoBehaviour
 {
     PlayerController player;
@@ -30,6 +31,7 @@ public class GameManager : MonoBehaviour
             pauseMenu.SetActive(false);
 
             healthBar = GameObject.FindGameObjectWithTag("ui_health").GetComponent<Image>();
+            healthBar.type = Image.Type.Filled;
             ammoCounter = GameObject.FindGameObjectWithTag("ui_ammo").GetComponent<TextMeshProUGUI>();
             clip = GameObject.FindGameObjectWithTag("ui_clip").GetComponent<TextMeshProUGUI>();
             fireMode = GameObject.FindGameObjectWithTag("ui_fireMode").GetComponent<TextMeshProUGUI>();
@@ -41,6 +43,7 @@ public class GameManager : MonoBehaviour
     {
         if (SceneManager.GetActiveScene().buildIndex >= 1)
         {
+            
             healthBar.fillAmount = (float)player.health / (float)player.maxHealth;
 
             if (player.currentWeapon != null)

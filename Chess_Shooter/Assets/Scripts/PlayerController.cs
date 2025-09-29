@@ -247,7 +247,7 @@ public class PlayerController : MonoBehaviour
             health++;
             Destroy(other.gameObject);
         }
-        if (other.tag == "Hazard" && iTime <= 0)
+        if ((other.tag == "Hazard" || other.tag == "enemy") && iTime <= 0)
         {
             health--;
             iTime = maxITime;

@@ -16,7 +16,7 @@ GameObject:
   - component: {fileID: 826414373168187277}
   m_Layer: 0
   m_Name: RigidbodyRook
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -134,7 +134,7 @@ Rigidbody:
     m_Bits: 0
   m_ImplicitCom: 1
   m_ImplicitTensor: 1
-  m_UseGravity: 0
+  m_UseGravity: 1
   m_IsKinematic: 0
   m_Interpolate: 0
   m_Constraints: 112
@@ -151,5 +151,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b7d42d5916d99064f85ac729e3be3e4b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  bomb: {fileID: 4814124627589167125, guid: 2cf0ebcb0f98628489545ac5da4e3ae7, type: 3}
   speed: 32
   delay: 0.8
+  aggroRadius: 20
+  maxAggroTimer: 8
+  maxITime: 0.5
+  bombDelay: 0.5
+  bombForce: 0
+  health: 5
