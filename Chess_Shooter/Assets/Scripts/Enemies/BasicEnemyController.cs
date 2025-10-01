@@ -5,7 +5,7 @@ public class BasicEnemyController : MonoBehaviour
 {
 
     public NavMeshAgent agent;
-    Transform playerTransform;
+    protected Transform playerTransform;
 
     public float aggroRadius;
     public float maxAggroTimer;
@@ -20,7 +20,7 @@ public class BasicEnemyController : MonoBehaviour
     public int maxHealth = 2;
     float iTime;
 
-    bool isNavigating = true;
+    protected bool isNavigating = true;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -35,39 +35,8 @@ public class BasicEnemyController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        //aggro
-        if (isNavigating)
-        {
-            agent.destination = playerTransform.position;
 
-            if (agent.isStopped && (playerTransform.position - transform.position).magnitude < aggroRadius)
-            {
-                agent.isStopped = false;
-                //Debug.Log("STOP. You violated the law. Pay the courts a fine or serve your sentence.");
-
-            }
-
-
-
-            if (!agent.isStopped)
-            {
-                if ((playerTransform.position - transform.position).magnitude > aggroRadius)
-                {
-                    aggroTimer -= Time.deltaTime;
-                }
-                else
-                {
-                    aggroTimer = maxAggroTimer;
-                }
-
-                if (aggroTimer <= 0)
-                {
-                    agent.isStopped = true;
-                    //Debug.Log("Must've been the wind.");
-                }
-            }
-        }
-
+        Navigate();
         
 
         //attacking
@@ -87,12 +56,12 @@ public class BasicEnemyController : MonoBehaviour
         //health & damage
         if (health <= 0)
         {
-            Destroy(this.gameObject);
+            Death();
         }
 
     }
 
-    IEnumerator attack()
+    protected virtual IEnumerator attack()
     {
         //initiating first part of the attack (sidestep)
         agent.speed *= attackSpeedMultiplyer;
@@ -154,5 +123,46 @@ public class BasicEnemyController : MonoBehaviour
             iTime = maxITime;
             agent.isStopped = false;
         }
+    }
+
+    protected virtual void Navigate()
+    {
+        //aggro
+        if (isNavigating)
+        {
+            agent.destination = playerTransform.position;
+
+            if (agent.isStopped && (playerTransform.position - transform.position).magnitude < aggroRadius)
+            {
+                agent.isStopped = false;
+                //Debug.Log("STOP. You violated the law. Pay the courts a fine or serve your sentence.");
+
+            }
+
+
+
+            if (!agent.isStopped)
+            {
+                if ((playerTransform.position - transform.position).magnitude > aggroRadius)
+                {
+                    aggroTimer -= Time.deltaTime;
+                }
+                else
+                {
+                    aggroTimer = maxAggroTimer;
+                }
+
+                if (aggroTimer <= 0)
+                {
+                    agent.isStopped = true;
+                    //Debug.Log("Must've been the wind.");
+                }
+            }
+        }
+    }
+
+    protected virtual void Death()
+    {
+        Destroy(this.gameObject);
     }
 }

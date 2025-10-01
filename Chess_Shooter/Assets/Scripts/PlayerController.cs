@@ -152,6 +152,11 @@ public class PlayerController : MonoBehaviour
         {
             SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
         }
+
+        if(transform.position.y < -512)
+        {
+            health = 0;
+        }
     }
 
     //input functions
@@ -247,7 +252,7 @@ public class PlayerController : MonoBehaviour
             health++;
             Destroy(other.gameObject);
         }
-        if ((other.tag == "Hazard" || other.tag == "enemy") && iTime <= 0)
+        if ((other.tag == "Hazard" || other.tag == "Enemy") && iTime <= 0)
         {
             health--;
             iTime = maxITime;
