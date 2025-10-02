@@ -9,6 +9,12 @@ EditorBuildSettings:
     path: Assets/Scenes/MainMenu 1.unity
     guid: e195e5e0d6218e74c94cc88dcee8a80d
   - enabled: 1
+    path: Assets/Scenes/Threshold.unity
+    guid: 7fc60a51120f54942abff54db1af1bf0
+  - enabled: 1
+    path: Assets/Scenes/Militia.unity
+    guid: 0799eb3caa1986e428c1e9e9c235e534
+  - enabled: 1
     path: Assets/Scenes/SampleScene.unity
     guid: 99c9720ab356a0642a771bea13969a05
   m_configObjects:

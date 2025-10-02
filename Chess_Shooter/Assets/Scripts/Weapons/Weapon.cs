@@ -41,7 +41,7 @@ public class Weapon : MonoBehaviour
         firePoint = transform.GetChild(0);
     }
 
-    public void fire()
+    public virtual void fire()
     {
         
         if(canFire && !reloading && (clip > 0 || clipSize == -1) && weaponID > -1)
