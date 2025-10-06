@@ -1,5 +1,6 @@
-using UnityEngine;
 using System.Collections;
+using UnityEditor.Experimental.GraphView;
+using UnityEngine;
 using UnityEngine.InputSystem;
 public class RigidbodyRookController : MonoBehaviour
 {
@@ -13,6 +14,7 @@ public class RigidbodyRookController : MonoBehaviour
     Vector3 deltaPos;
     Vector3 emmissionPoint;
     public GameObject bomb;
+    public GameObject p;
 
 
 
@@ -202,10 +204,12 @@ public class RigidbodyRookController : MonoBehaviour
         }
         if (other.tag == "PlayerDamage" && iTime <= 0)
         {
-            Debug.Log("ow!");
             health--;
             iTime = maxITime;
             isNavigating = true;
+            GameObject part = Instantiate(p, null);
+            part.transform.position = transform.position;
+            part = null;
         }
     }
 }

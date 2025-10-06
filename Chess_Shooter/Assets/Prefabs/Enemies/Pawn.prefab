@@ -148,13 +148,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   agent: {fileID: 0}
+  p: {fileID: 196217224041588173, guid: 7448093e2b294ed4da8e69b71c7515db, type: 3}
   aggroRadius: 10
   maxAggroTimer: 12
   attackRadius: 5
   attackDelay: 0.8
   attackCooldown: 1.5
   attackSpeedMultiplyer: 2
-  maxITime: 0.5
+  maxITime: 0.2
   health: 2
   maxHealth: 2
 --- !u!54 &7530078082393399409
@@ -164,10 +165,10 @@ Rigidbody:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8852774660629943058}
-  serializedVersion: 4
+  serializedVersion: 5
   m_Mass: 1
-  m_Drag: 0
-  m_AngularDrag: 0.05
+  m_LinearDamping: 0
+  m_AngularDamping: 0.05
   m_CenterOfMass: {x: 0, y: 0, z: 0}
   m_InertiaTensor: {x: 1, y: 1, z: 1}
   m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}

@@ -6,6 +6,7 @@ public class BasicEnemyController : MonoBehaviour
 
     public NavMeshAgent agent;
     protected Transform playerTransform;
+    public GameObject p;
 
     public float aggroRadius;
     public float maxAggroTimer;
@@ -122,6 +123,9 @@ public class BasicEnemyController : MonoBehaviour
             health--;
             iTime = maxITime;
             agent.isStopped = false;
+            GameObject part = Instantiate(p, null);
+            part.transform.position = transform.position;
+            part = null;
         }
     }
 

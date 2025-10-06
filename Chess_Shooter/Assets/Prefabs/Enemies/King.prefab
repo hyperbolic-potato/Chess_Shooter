@@ -393,13 +393,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   agent: {fileID: 0}
+  p: {fileID: 196217224041588173, guid: 7448093e2b294ed4da8e69b71c7515db, type: 3}
   aggroRadius: 10
   maxAggroTimer: 12
   attackRadius: 5
   attackDelay: 0.8
   attackCooldown: 1.5
   attackSpeedMultiplyer: 2
-  maxITime: 0.5
+  maxITime: 0.2
   health: 7
   maxHealth: 7
   runawayDistance: 5

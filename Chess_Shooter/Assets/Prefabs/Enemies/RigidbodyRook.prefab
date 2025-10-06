@@ -265,11 +265,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   bomb: {fileID: 4814124627589167125, guid: 2cf0ebcb0f98628489545ac5da4e3ae7, type: 3}
+  p: {fileID: 196217224041588173, guid: 7448093e2b294ed4da8e69b71c7515db, type: 3}
   speed: 32
   delay: 0.8
   aggroRadius: 20
   maxAggroTimer: 8
-  maxITime: 0.5
+  maxITime: 0.2
   bombDelay: 0.5
   bombForce: 30
   health: 5
