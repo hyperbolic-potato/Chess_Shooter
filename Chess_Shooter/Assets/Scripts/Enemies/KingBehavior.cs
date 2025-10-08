@@ -26,6 +26,7 @@ public class KingBehavior : BasicEnemyController
 
     protected override void Death() //mmm yes my favorite kind of death
     {
+        Time.timeScale = 1;
 
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
 

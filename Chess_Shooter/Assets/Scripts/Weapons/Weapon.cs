@@ -35,7 +35,7 @@ public class Weapon : MonoBehaviour
     public int ammoRefill;
 
 
-    void Start()
+    protected virtual void Start()
     {
         weaponSpeaker = GetComponent<AudioSource>();
         firePoint = transform.GetChild(0);
