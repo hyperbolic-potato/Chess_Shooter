@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: 4362445113554304096}
   - component: {fileID: 2442206614069939330}
   - component: {fileID: 826414373168187277}
+  - component: {fileID: 5088277993175303400}
   m_Layer: 0
   m_Name: RigidbodyRook
   m_TagString: Enemy
@@ -163,6 +164,26 @@ MonoBehaviour:
   bombDelay: 0.5
   bombForce: 30
   health: 5
+--- !u!114 &5088277993175303400
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1821668826485469764}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1e3fdca004f2d45fe8abbed571a8abd5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_SerializedVersion: 0
+  m_OverrideArea: 0
+  m_Area: 0
+  m_OverrideGenerateLinks: 0
+  m_GenerateLinks: 0
+  m_IgnoreFromBuild: 1
+  m_ApplyToChildren: 1
+  m_AffectedAgents: ffffffff
 --- !u!1 &2697561123649393303
 GameObject:
   m_ObjectHideFlags: 0

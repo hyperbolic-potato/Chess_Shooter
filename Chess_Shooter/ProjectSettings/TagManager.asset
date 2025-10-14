@@ -19,6 +19,7 @@ TagManager:
   - ui_ammo
   - killzone
   - gm
+  - Navmesh
   - PlayerDamage
   layers:
   - Default

@@ -46,6 +46,7 @@ GameObject:
   - component: {fileID: 7936797526845569528}
   - component: {fileID: 4726066104294559380}
   - component: {fileID: 4919614129758933109}
+  - component: {fileID: 1002097943525585280}
   m_Layer: 0
   m_Name: BombLauncher
   m_TagString: Weapon
@@ -299,3 +300,23 @@ MonoBehaviour:
   ammo: 100
   maxAmmo: 100
   ammoRefill: 100
+--- !u!114 &1002097943525585280
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5016275849985067990}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1e3fdca004f2d45fe8abbed571a8abd5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_SerializedVersion: 0
+  m_OverrideArea: 0
+  m_Area: 0
+  m_OverrideGenerateLinks: 0
+  m_GenerateLinks: 0
+  m_IgnoreFromBuild: 1
+  m_ApplyToChildren: 1
+  m_AffectedAgents: ffffffff
