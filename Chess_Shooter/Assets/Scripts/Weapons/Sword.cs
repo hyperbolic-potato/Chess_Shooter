@@ -6,6 +6,7 @@ public class Sword : Weapon
 
     public float angleNoise = 5f;
     public float angleSeverity = 45f;
+    public float pitch = 1f;
     protected override void Start()
     {
         base.Start();
@@ -39,6 +40,7 @@ public class Sword : Weapon
 
     public IEnumerator Swing()
     {
+        weaponSpeaker.pitch = pitch * Random.Range(0.9f, 1.1f);
         mesh.enabled = false;
         yield return new WaitForSeconds(projLifespan);
         mesh.enabled = true;

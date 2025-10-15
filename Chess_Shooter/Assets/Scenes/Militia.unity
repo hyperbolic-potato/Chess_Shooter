@@ -1307,6 +1307,10 @@ PrefabInstance:
       propertyPath: m_IsKinematic
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 4217684054893907451, guid: 38e3ffe6ff6898e4b97dde6b4fd378ce, type: 3}
+      propertyPath: m_Resource
+      value: 
+      objectReference: {fileID: 8300000, guid: c7208052aa5b19d4e84eec21698bab2d, type: 3}
     - target: {fileID: 4952821714603257906, guid: 38e3ffe6ff6898e4b97dde6b4fd378ce, type: 3}
       propertyPath: m_LocalPosition.x
       value: 774.587

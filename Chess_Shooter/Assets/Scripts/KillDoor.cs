@@ -25,7 +25,7 @@ public class KillDoor : MonoBehaviour
         
         if(enemies <= threshold)
         {
-            nms.UpdateNavMesh(nms.navMeshData);
+            nms.BuildNavMesh();
             Destroy(gameObject);
         }
     }
