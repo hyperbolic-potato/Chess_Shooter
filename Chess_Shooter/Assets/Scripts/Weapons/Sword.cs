@@ -40,7 +40,7 @@ public class Sword : Weapon
 
     public IEnumerator Swing()
     {
-        weaponSpeaker.pitch = pitch * Random.Range(0.9f, 1.1f);
+        weaponSpeaker.pitch = pitch * Random.Range(0.8f, 1.2f);
         mesh.enabled = false;
         yield return new WaitForSeconds(projLifespan);
         mesh.enabled = true;

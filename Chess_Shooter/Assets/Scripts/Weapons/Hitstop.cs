@@ -18,6 +18,10 @@ public class Hitstop : MonoBehaviour
         }
     }
 
+    private void OnDestroy()
+    {
+        Time.timeScale = 1f;
+    }
 
     IEnumerator Stop()
     {

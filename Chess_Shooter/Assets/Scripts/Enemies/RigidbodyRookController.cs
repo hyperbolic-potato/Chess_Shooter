@@ -15,7 +15,8 @@ public class RigidbodyRookController : MonoBehaviour
     Vector3 emmissionPoint;
     public GameObject bomb;
     public GameObject p;
-
+    public GameObject kill;
+    public AudioSource audio;
 
 
     public float speed = 5;
@@ -47,6 +48,8 @@ public class RigidbodyRookController : MonoBehaviour
         emmissionPoint = transform.GetChild(0).localPosition;
 
         difference = playerTransform.position - transform.position;
+
+        audio = GetComponent<AudioSource>();
 
         axis = GetLargestAxis(difference);
     }
@@ -126,6 +129,9 @@ public class RigidbodyRookController : MonoBehaviour
 
         if(health <= 0)
         {
+            GameObject part = Instantiate(kill, null);
+            part.transform.position = transform.position;
+            part = null;
             Destroy(this.gameObject);
         }
         if (iTime > 0) iTime -= Time.deltaTime;
@@ -210,6 +216,7 @@ public class RigidbodyRookController : MonoBehaviour
             GameObject part = Instantiate(p, null);
             part.transform.position = transform.position;
             part = null;
+            audio.Play();
         }
     }
 }

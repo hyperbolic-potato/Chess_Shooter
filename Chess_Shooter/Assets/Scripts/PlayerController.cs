@@ -215,6 +215,10 @@ public class PlayerController : MonoBehaviour
     public void Jump(InputAction.CallbackContext context)
     {
         isJumping = context.ReadValue<float>() > 0;
+        if (context.performed)
+        {
+
+        }
     }
 
     public void OnCollisionStay(Collision collision)

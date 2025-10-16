@@ -327,7 +327,7 @@ MonoBehaviour:
   sensitivity: 0.1
   jumpSpeed: 26
   maxGroundingSlope: 30
-  jumpGrace: 20
+  jumpGrace: 0.4
   maxITime: 0.5
   interactDistance: 2
   maxExtraJumps: 1
@@ -393,7 +393,7 @@ AudioSource:
   m_audioClip: {fileID: 0}
   m_Resource: {fileID: 8300000, guid: eaa2ef228c92a7c4ba12095b307947ee, type: 3}
   m_PlayOnAwake: 1
-  m_Volume: 1
+  m_Volume: 0.444
   m_Pitch: 1
   Loop: 1
   Mute: 0

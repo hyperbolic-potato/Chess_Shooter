@@ -41,7 +41,8 @@ public class GameManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (SceneManager.GetActiveScene().buildIndex >= 1)
+        Debug.Log(SceneManager.sceneCountInBuildSettings + " " + SceneManager.GetActiveScene().buildIndex);
+        if (SceneManager.GetActiveScene().buildIndex >= 1 && SceneManager.GetActiveScene() != SceneManager.GetSceneByBuildIndex(SceneManager.sceneCount - 1))
         {
             
             healthBar.fillAmount = (float)player.health / (float)player.maxHealth;

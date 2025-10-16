@@ -7,6 +7,8 @@ public class BasicEnemyController : MonoBehaviour
     public NavMeshAgent agent;
     protected Transform playerTransform;
     public GameObject p;
+    public GameObject kill;
+    public AudioSource audio;
 
     public float aggroRadius;
     public float maxAggroTimer;
@@ -29,6 +31,8 @@ public class BasicEnemyController : MonoBehaviour
         agent = GetComponent<NavMeshAgent>();
         playerTransform = GameObject.Find("PlayerActor").transform;
         agent.isStopped = true;
+
+        audio = GetComponent<AudioSource>();
 
         health = maxHealth;
     }
@@ -126,6 +130,7 @@ public class BasicEnemyController : MonoBehaviour
             GameObject part = Instantiate(p, null);
             part.transform.position = transform.position;
             part = null;
+            audio.Play();
         }
     }
 
@@ -167,6 +172,9 @@ public class BasicEnemyController : MonoBehaviour
 
     protected virtual void Death()
     {
+        GameObject part = Instantiate(kill, null);
+        part.transform.position = transform.position;
+        part = null;
         Destroy(this.gameObject);
     }
 }
