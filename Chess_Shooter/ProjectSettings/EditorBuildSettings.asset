@@ -12,7 +12,7 @@ EditorBuildSettings:
     path: Assets/Scenes/Threshold.unity
     guid: 7fc60a51120f54942abff54db1af1bf0
   - enabled: 1
-    path: Assets/Scenes/Militia.unity
+    path: Assets/Scenes/Safehouse.unity
     guid: 0799eb3caa1986e428c1e9e9c235e534
   - enabled: 1
     path: Assets/Scenes/End Screen.unity
