@@ -38,6 +38,7 @@ public class RigidbodyRookController : MonoBehaviour
     bool isWalled;
     bool isNavigating;
     bool isBombing;
+
     
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -93,8 +94,11 @@ public class RigidbodyRookController : MonoBehaviour
         if (isNavigating)
         {
             rb.useGravity = false;
+
             difference = playerTransform.position - transform.position;
-            if (Vector3.Scale(axis, difference).magnitude < 0.5f)
+
+
+            if (!redirecting && Vector3.Scale(axis, difference).magnitude < 0.5f)
             {
                 rb.linearVelocity = Vector3.zero;
                 StartCoroutine(redirect(difference));
@@ -107,10 +111,8 @@ public class RigidbodyRookController : MonoBehaviour
             }
 
 
-            if (!redirecting && isWalled)
-            {
-                axis = Vector3.up;
-            }
+            
+            
 
             deltaPos = transform.position;
 
@@ -145,6 +147,7 @@ public class RigidbodyRookController : MonoBehaviour
 
     Vector3 GetLargestAxis(Vector3 difference)
     {
+
         if (Mathf.Abs(difference.x) > Mathf.Abs(difference.y) && Mathf.Abs(difference.x) > Mathf.Abs(difference.z)) return Vector3.right;
         if (Mathf.Abs(difference.y) > Mathf.Abs(difference.x) && Mathf.Abs(difference.y) > Mathf.Abs(difference.z)) return Vector3.up;
         else return Vector3.forward;
@@ -155,11 +158,13 @@ public class RigidbodyRookController : MonoBehaviour
         rb.linearVelocity = axis * speed;
     }
 
-    IEnumerator redirect(Vector3 difference)
+    IEnumerator redirect(Vector3 diff)
     {
+        Debug.Log("redirecting...");
         redirecting = true;
         yield return new WaitForSeconds(delay);
-        axis = GetLargestAxis(difference);
+        axis = GetLargestAxis(diff);
+        difference = playerTransform.position - transform.position;
         redirecting = false;
     }
 
@@ -169,7 +174,7 @@ public class RigidbodyRookController : MonoBehaviour
         
         GameObject b = Instantiate(bomb, null);
         b.transform.position = transform.position + emmissionPoint;
-        b.GetComponent<Rigidbody>().AddForce(Vector3.up * bombForce);
+        b.GetComponent<Rigidbody>().linearVelocity = Vector3.up * bombForce;
         yield return new WaitForSeconds(bombDelay);
         isBombing = false;
 
@@ -186,6 +191,7 @@ public class RigidbodyRookController : MonoBehaviour
                 
             }
         }
+        
 
         // if this works first try I'm converting to Islam.
 

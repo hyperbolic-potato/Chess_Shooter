@@ -21,7 +21,7 @@ public class BasicEnemyController : MonoBehaviour
     float aggroTimer;
     public int health = 2;
     public int maxHealth = 2;
-    float iTime;
+    protected float iTime;
 
     protected bool isNavigating = true;
 
@@ -115,14 +115,14 @@ public class BasicEnemyController : MonoBehaviour
         DamageUpdate(other.collider);
     }
 
-    private void DamageUpdate(Collider other)
+    protected virtual void DamageUpdate(Collider other)
     {
         if (other.tag == "Respawn")
         {
             health = 0;
         }
 
-        if (other.tag == "Hazard" || other.tag == "PlayerDamage" && iTime <= 0)
+        if ((other.tag == "Hazard" || other.tag == "PlayerDamage") && iTime <= 0)
         {
             health--;
             iTime = maxITime;

@@ -160,12 +160,12 @@ MonoBehaviour:
   kill: {fileID: 196217224041588173, guid: 7448093e2b294ed4da8e69b71c7515db, type: 3}
   audio: {fileID: 0}
   speed: 32
-  delay: 0.8
+  delay: 1.4
   aggroRadius: 20
   maxAggroTimer: 8
   maxITime: 0.2
   bombDelay: 0.5
-  bombForce: 30
+  bombForce: 8
   health: 5
 --- !u!114 &5088277993175303400
 MonoBehaviour:
@@ -419,7 +419,7 @@ Transform:
   m_GameObject: {fileID: 6844199783546565153}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 1.33, z: 0}
+  m_LocalPosition: {x: 0, y: 1.54, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []

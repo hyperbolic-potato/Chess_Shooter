@@ -32,4 +32,23 @@ public class KingBehavior : BasicEnemyController
 
         base.Death();
     }
+
+    protected override void DamageUpdate(Collider other)
+    {
+        if (other.tag == "Respawn")
+        {
+            health = 0;
+        }
+
+        if (other.tag == "PlayerDamage" && iTime <= 0)
+        {
+            health--;
+            iTime = maxITime;
+            agent.isStopped = false;
+            GameObject part = Instantiate(p, null);
+            part.transform.position = transform.position;
+            part = null;
+            audio.Play();
+        }
+    }
 }
