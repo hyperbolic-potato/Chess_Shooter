@@ -2,12 +2,25 @@ using UnityEngine;
 using System.Collections;
 using Unity.AI;
 using UnityEngine.SceneManagement;
+using UnityEngine.VFX;
 public class KingBehavior : BasicEnemyController
 {
 
     public float runawayDistance = 5f;
+
+    public GameObject vfx;
+
+    bool isDead = false;
+
     protected override IEnumerator attack(){
         yield return null;
+    }
+
+
+    private void Start()
+    {
+        vfx = transform.GetChild(0).gameObject;
+        base.Start();
     }
 
     protected override void Navigate()
@@ -26,11 +39,13 @@ public class KingBehavior : BasicEnemyController
 
     protected override void Death() //mmm yes my favorite kind of death
     {
-        Time.timeScale = 1;
 
-        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
 
-        base.Death();
+        if(!isDead) StartCoroutine(Checkmate());
+
+        
+
+        
     }
 
     protected override void DamageUpdate(Collider other)
@@ -50,5 +65,17 @@ public class KingBehavior : BasicEnemyController
             part = null;
             audio.Play();
         }
+    }
+
+    IEnumerator Checkmate()
+    {
+        isDead = true;
+        vfx.SetActive(false);
+        GameObject part = Instantiate(kill, null);
+        part.transform.position = transform.position;
+        part = null;
+        yield return new WaitForSeconds(0.5f);
+        Time.timeScale = 1;
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
     }
 }

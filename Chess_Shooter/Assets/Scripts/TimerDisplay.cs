@@ -25,8 +25,8 @@ public class TimerDisplay : MonoBehaviour
     {
         float seconds = time % 60;
         seconds = (float)(int)(seconds * 100) / 100f;
-        int minutes = Mathf.FloorToInt(time / 60);
-        int hours = Mathf.FloorToInt(time / 120);
+        int minutes = Mathf.FloorToInt(time / 60f);
+        int hours = Mathf.FloorToInt(time / 3600f);
         return hours.ToString() + ":" + minutes.ToString() + ":" + seconds.ToString();
 
     }

@@ -1,4 +1,5 @@
 using System.Collections;
+using Unity.VisualScripting.ReorderableList;
 using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -35,9 +36,10 @@ public class RigidbodyRookController : MonoBehaviour
 
 
     bool redirecting;
-    bool isWalled;
+    public bool isWalled;
     bool isNavigating;
     bool isBombing;
+    public bool isMoving;
 
     
     // Start is called once before the first execution of Update after the MonoBehaviour is created
@@ -110,11 +112,12 @@ public class RigidbodyRookController : MonoBehaviour
 
             }
 
+            if (isWalled)
+            {
+                StartCoroutine(redirect(Vector3.Scale(difference, new Vector3(1, 1, 1) - axis)));
+            }
 
-            
-            
 
-            deltaPos = transform.position;
 
             //attacking
             if (axis != Vector3.up && axis != Vector3.zero && !redirecting && !isBombing)
@@ -160,7 +163,6 @@ public class RigidbodyRookController : MonoBehaviour
 
     IEnumerator redirect(Vector3 diff)
     {
-        Debug.Log("redirecting...");
         redirecting = true;
         yield return new WaitForSeconds(delay);
         axis = GetLargestAxis(diff);
@@ -185,12 +187,12 @@ public class RigidbodyRookController : MonoBehaviour
         isWalled = false;
         for (int i = 0; i < collision.contacts.Length; i++)
         {
-            if (Mathf.Abs(collision.contacts[i].normal.y) < 0.05f)
+            if (rb.linearVelocity == Vector3.zero && !redirecting)
             {
                 isWalled = true;
-                
             }
         }
+
         
 
         // if this works first try I'm converting to Islam.

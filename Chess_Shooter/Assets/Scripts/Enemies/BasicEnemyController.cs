@@ -26,7 +26,7 @@ public class BasicEnemyController : MonoBehaviour
     protected bool isNavigating = true;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
+    protected void Start()
     {
         agent = GetComponent<NavMeshAgent>();
         playerTransform = GameObject.Find("PlayerActor").transform;
