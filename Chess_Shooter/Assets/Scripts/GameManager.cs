@@ -41,9 +41,15 @@ public class GameManager : MonoBehaviour
             clip = GameObject.FindGameObjectWithTag("ui_clip").GetComponent<TextMeshProUGUI>();
             fireMode = GameObject.FindGameObjectWithTag("ui_fireMode").GetComponent<TextMeshProUGUI>();
         }
-        if (SceneManager.GetActiveScene().buildIndex == 0) curtain.color = new Color(0, 0, 0, 0);
+        if (SceneManager.GetActiveScene().buildIndex == 0)
+        {
+            curtain.color = new Color(0, 0, 0, 0);
+            curtain.enabled = false;
+        }
+
         else
         {
+            curtain.enabled = true;
             curtain.color = new Color(0, 0, 0, 1);
             StartCoroutine(fadeIn());
         }
@@ -142,6 +148,7 @@ public class GameManager : MonoBehaviour
     }
     public IEnumerator fadeIn()
     {
+        curtain.enabled = true;
         for (int i = 0; i < 10 ; i++)
         {
             curtain.color = new Color(0, 0, 0, 1 - ((float)i / 10f));
@@ -150,9 +157,11 @@ public class GameManager : MonoBehaviour
             //1 times 0.1 is not 0.3 you absolute doorknob!
         }
         curtain.color = new Color(0, 0, 0, 0);
+        curtain.enabled = false;
     }
     public IEnumerator fadeOut(int level)
     {
+        curtain.enabled = true;
         for (int i = 0; i < 10; i++)
         {
             curtain.color = new Color(0, 0, 0, ((float)i / 10f));

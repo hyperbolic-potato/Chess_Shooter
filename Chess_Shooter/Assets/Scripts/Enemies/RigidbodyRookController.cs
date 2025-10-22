@@ -40,6 +40,7 @@ public class RigidbodyRookController : MonoBehaviour
     bool isNavigating;
     bool isBombing;
     public bool isMoving;
+    public Material marble;
 
     
     // Start is called once before the first execution of Update after the MonoBehaviour is created
@@ -177,6 +178,7 @@ public class RigidbodyRookController : MonoBehaviour
         GameObject b = Instantiate(bomb, null);
         b.transform.position = transform.position + emmissionPoint;
         b.GetComponent<Rigidbody>().linearVelocity = Vector3.up * bombForce;
+        b.GetComponent<MeshRenderer>().material = marble;
         yield return new WaitForSeconds(bombDelay);
         isBombing = false;
 

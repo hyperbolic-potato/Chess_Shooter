@@ -167,6 +167,9 @@ MonoBehaviour:
   bombDelay: 0.5
   bombForce: 8
   health: 5
+  isWalled: 0
+  isMoving: 0
+  marble: {fileID: 2100000, guid: ed881915298c32e4d8354a49d130ede3, type: 2}
 --- !u!114 &5088277993175303400
 MonoBehaviour:
   m_ObjectHideFlags: 0
