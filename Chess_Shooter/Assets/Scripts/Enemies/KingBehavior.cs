@@ -9,6 +9,7 @@ public class KingBehavior : BasicEnemyController
     public float runawayDistance = 5f;
 
     public GameObject vfx;
+    public GameManager gm;
 
     bool isDead = false;
 
@@ -20,6 +21,7 @@ public class KingBehavior : BasicEnemyController
     private void Start()
     {
         vfx = transform.GetChild(0).gameObject;
+        gm = GameObject.FindGameObjectWithTag("GameController").GetComponent<GameManager>();
         base.Start();
     }
 
@@ -41,7 +43,17 @@ public class KingBehavior : BasicEnemyController
     {
 
 
-        if(!isDead) StartCoroutine(Checkmate());
+        //if(!isDead) StartCoroutine(Checkmate());
+        if (!isDead)
+        {
+            isDead = true;
+            StartCoroutine(gm.fadeOut(SceneManager.GetActiveScene().buildIndex + 1));
+            vfx.SetActive(false);
+            GameObject part = Instantiate(kill, null);
+            part.transform.position = transform.position;
+            part = null;
+
+        }
 
         
 
@@ -70,10 +82,7 @@ public class KingBehavior : BasicEnemyController
     IEnumerator Checkmate()
     {
         isDead = true;
-        vfx.SetActive(false);
-        GameObject part = Instantiate(kill, null);
-        part.transform.position = transform.position;
-        part = null;
+
         yield return new WaitForSeconds(0.5f);
         Time.timeScale = 1;
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);

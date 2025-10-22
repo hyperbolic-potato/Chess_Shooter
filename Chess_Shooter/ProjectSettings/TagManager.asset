@@ -21,6 +21,7 @@ TagManager:
   - gm
   - Navmesh
   - PlayerDamage
+  - Curtain
   layers:
   - Default
   - TransparentFX

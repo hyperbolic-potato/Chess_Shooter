@@ -698,6 +698,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   isPaused: 0
+  transitionInterval: 0.1
 --- !u!4 &426519292
 Transform:
   m_ObjectHideFlags: 0
@@ -1014,10 +1015,10 @@ PrefabInstance:
     - target: {fileID: 3476854106090116561, guid: d7c9d13db260c8f479cb8a9565f41c82, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
-      objectReference: {fileID: 426519290}
+      objectReference: {fileID: 426519291}
     - target: {fileID: 3476854106090116561, guid: d7c9d13db260c8f479cb8a9565f41c82, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: 
+      value: QuitGame
       objectReference: {fileID: 0}
     - target: {fileID: 3610626285991771700, guid: d7c9d13db260c8f479cb8a9565f41c82, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
@@ -1106,6 +1107,10 @@ PrefabInstance:
     - target: {fileID: 4928034150719600549, guid: d7c9d13db260c8f479cb8a9565f41c82, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5640286050905815870, guid: d7c9d13db260c8f479cb8a9565f41c82, type: 3}
+      propertyPath: m_Name
+      value: Curtain
       objectReference: {fileID: 0}
     - target: {fileID: 6773234570955145841, guid: d7c9d13db260c8f479cb8a9565f41c82, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
@@ -1430,6 +1435,42 @@ PrefabInstance:
       propertyPath: threshold
       value: 4
       objectReference: {fileID: 0}
+    - target: {fileID: 4119732643336959923, guid: 9572fd7799893d846afbacb727e4c4a3, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: 1eb10a58dc757d3418328658006fc85c, type: 2}
+    - target: {fileID: 6333317501614695951, guid: 9572fd7799893d846afbacb727e4c4a3, type: 3}
+      propertyPath: m_fontSize
+      value: 14.65
+      objectReference: {fileID: 0}
+    - target: {fileID: 6333317501614695951, guid: 9572fd7799893d846afbacb727e4c4a3, type: 3}
+      propertyPath: m_fontAsset
+      value: 
+      objectReference: {fileID: 11400000, guid: bb70e64eab6d7a1479b52149c95b429e, type: 2}
+    - target: {fileID: 6333317501614695951, guid: 9572fd7799893d846afbacb727e4c4a3, type: 3}
+      propertyPath: m_fontColor.b
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6333317501614695951, guid: 9572fd7799893d846afbacb727e4c4a3, type: 3}
+      propertyPath: m_fontColor.g
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6333317501614695951, guid: 9572fd7799893d846afbacb727e4c4a3, type: 3}
+      propertyPath: m_fontColor.r
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6333317501614695951, guid: 9572fd7799893d846afbacb727e4c4a3, type: 3}
+      propertyPath: m_sharedMaterial
+      value: 
+      objectReference: {fileID: -2272963551698237602, guid: bb70e64eab6d7a1479b52149c95b429e, type: 2}
+    - target: {fileID: 6333317501614695951, guid: 9572fd7799893d846afbacb727e4c4a3, type: 3}
+      propertyPath: m_fontColor32.rgba
+      value: 4294967295
+      objectReference: {fileID: 0}
+    - target: {fileID: 6333317501614695951, guid: 9572fd7799893d846afbacb727e4c4a3, type: 3}
+      propertyPath: m_hasFontAssetChanged
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 8441578003787786018, guid: 9572fd7799893d846afbacb727e4c4a3, type: 3}
       propertyPath: m_LocalPosition.x
       value: 803.0126
@@ -1470,6 +1511,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 8962546483855502901, guid: 9572fd7799893d846afbacb727e4c4a3, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: -2272963551698237602, guid: bb70e64eab6d7a1479b52149c95b429e, type: 2}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -2187,6 +2232,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: KillDoor
       objectReference: {fileID: 0}
+    - target: {fileID: 4119732643336959923, guid: 9572fd7799893d846afbacb727e4c4a3, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: ed881915298c32e4d8354a49d130ede3, type: 2}
     - target: {fileID: 8441578003787786018, guid: 9572fd7799893d846afbacb727e4c4a3, type: 3}
       propertyPath: m_LocalPosition.x
       value: 803.0126

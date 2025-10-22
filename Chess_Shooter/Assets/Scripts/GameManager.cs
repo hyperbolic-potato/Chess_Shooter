@@ -4,6 +4,7 @@ using UnityEngine.SceneManagement;
 using TMPro;
 using Unity.VisualScripting;
 using UnityEngine.InputSystem;
+using System.Collections;
 public class GameManager : MonoBehaviour
 {
     PlayerController player;
@@ -15,12 +16,16 @@ public class GameManager : MonoBehaviour
     TextMeshProUGUI ammoCounter;
     TextMeshProUGUI clip;
     TextMeshProUGUI fireMode;
+    Image curtain;
 
     public bool isPaused = false;
+    public float transitionInterval = 0.075f; //god, I wish I could transition in 0.1 second.
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
+        
+        curtain = GameObject.FindGameObjectWithTag("Curtain").GetComponent<Image>();
         if (SceneManager.GetActiveScene().buildIndex >= 1 && SceneManager.sceneCountInBuildSettings - 1 != SceneManager.GetActiveScene().buildIndex)
         {
             player = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerController>();
@@ -35,6 +40,12 @@ public class GameManager : MonoBehaviour
             ammoCounter = GameObject.FindGameObjectWithTag("ui_ammo").GetComponent<TextMeshProUGUI>();
             clip = GameObject.FindGameObjectWithTag("ui_clip").GetComponent<TextMeshProUGUI>();
             fireMode = GameObject.FindGameObjectWithTag("ui_fireMode").GetComponent<TextMeshProUGUI>();
+        }
+        if (SceneManager.GetActiveScene().buildIndex == 0) curtain.color = new Color(0, 0, 0, 0);
+        else
+        {
+            curtain.color = new Color(0, 0, 0, 1);
+            StartCoroutine(fadeIn());
         }
     }
 
@@ -128,5 +139,27 @@ public class GameManager : MonoBehaviour
     public void QuitGame()
     {
         Application.Quit();
+    }
+    public IEnumerator fadeIn()
+    {
+        for (int i = 0; i < 10 ; i++)
+        {
+            curtain.color = new Color(0, 0, 0, 1 - ((float)i / 10f));
+            yield return new WaitForSeconds(transitionInterval);
+
+            //1 times 0.1 is not 0.3 you absolute doorknob!
+        }
+        curtain.color = new Color(0, 0, 0, 0);
+    }
+    public IEnumerator fadeOut(int level)
+    {
+        for (int i = 0; i < 10; i++)
+        {
+            curtain.color = new Color(0, 0, 0, ((float)i / 10f));
+            yield return new WaitForSeconds(transitionInterval);
+
+        }
+        curtain.color = new Color(0, 0, 0, 1);
+        LoadLevel(level);
     }
 }

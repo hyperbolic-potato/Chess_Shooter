@@ -1222,6 +1222,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   isPaused: 0
+  transitionInterval: 0.075
 --- !u!4 &426519292
 Transform:
   m_ObjectHideFlags: 0
@@ -2776,12 +2777,16 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6773234570955145841, guid: d7c9d13db260c8f479cb8a9565f41c82, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6773234570955145841, guid: d7c9d13db260c8f479cb8a9565f41c82, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
       objectReference: {fileID: 426519291}
     - target: {fileID: 6773234570955145841, guid: d7c9d13db260c8f479cb8a9565f41c82, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: LoadLevel
+      value: MainMenu
       objectReference: {fileID: 0}
     - target: {fileID: 8722870128678386382, guid: d7c9d13db260c8f479cb8a9565f41c82, type: 3}
       propertyPath: m_Name
