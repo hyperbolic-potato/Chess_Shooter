@@ -19,7 +19,7 @@ public class GameManager : MonoBehaviour
     Image curtain;
 
     public bool isPaused = false;
-    public float transitionInterval = 0.075f; //god, I wish I could transition in 0.1 second.
+    public float transitionInterval = 0.075f; //god, I wish I could transition in 0.075 second.
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -40,6 +40,11 @@ public class GameManager : MonoBehaviour
             ammoCounter = GameObject.FindGameObjectWithTag("ui_ammo").GetComponent<TextMeshProUGUI>();
             clip = GameObject.FindGameObjectWithTag("ui_clip").GetComponent<TextMeshProUGUI>();
             fireMode = GameObject.FindGameObjectWithTag("ui_fireMode").GetComponent<TextMeshProUGUI>();
+        }
+        else
+        {
+            Cursor.lockState = CursorLockMode.None;
+            Cursor.visible = true;
         }
         if (SceneManager.GetActiveScene().buildIndex == 0)
         {
