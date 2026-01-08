@@ -24,7 +24,7 @@ public class LinkedListTest : MonoBehaviour
         PrintList(head);
     }
 
-    public void PrintList(Node head) //don't execute this function on a circular LinkedList unless you want to summon Oroborous.
+    public void PrintList(Node head) //don't execute this function on a circular LinkedList unless you want to summon Ouroboros.
     {
         Node current = head;
         string output = "";
