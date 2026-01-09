@@ -14,10 +14,15 @@ public class PlayerController : MonoBehaviour
     public InputAction lookAxis;
     public PlayerInput input;
     public Transform weaponSlot;
+    public Transform itemSlot;
     public Weapon currentWeapon;
     Ray interactRay;
     RaycastHit interactHit;
     GameObject pickupObject;
+    
+    ItemNode head;
+    ItemNode heldItem;
+    
 
     float inputX;
     float inputY;
@@ -88,7 +93,7 @@ public class PlayerController : MonoBehaviour
 
         if(Physics.Raycast(interactRay, out interactHit, interactDistance))
         {
-            if(interactHit.collider.tag == "Weapon")
+            if(interactHit.collider.tag == "Weapon" || interactHit.collider.tag == "Item")
             {
                 pickupObject = interactHit.collider.gameObject;
             }
@@ -96,6 +101,7 @@ public class PlayerController : MonoBehaviour
             {
                 pickupObject = null;
             }
+
         }
 
         if (currentWeapon && currentWeapon.holdToAttack && attacking) currentWeapon.fire();
@@ -157,6 +163,13 @@ public class PlayerController : MonoBehaviour
         {
             health = 0;
         }
+        //inventory
+        if(heldItem == null && head != null)
+        {
+            heldItem = head;
+            heldItem.data.GetComponent<MeshRenderer>().enabled = true;
+        }
+
     }
 
     //input functions
@@ -192,6 +205,31 @@ public class PlayerController : MonoBehaviour
 
                 pickupObject = null;
             }
+            else if (pickupObject.tag == "Item")
+            {
+
+                pickupObject.GetComponent<Rigidbody>().isKinematic = true;
+                pickupObject.GetComponent<Collider>().enabled = false;
+                pickupObject.GetComponent<MeshRenderer>().enabled = false;
+                pickupObject.transform.parent = itemSlot;
+                pickupObject.transform.localPosition = Vector3.zero;
+                pickupObject.transform.localRotation = Quaternion.identity;
+                //the above code bloc stows the object in the player's off hand 
+
+                
+
+                if (head == null)
+                {
+                    head = new ItemNode(pickupObject);
+                }
+                else
+                {
+                    head.Append(new ItemNode(pickupObject));
+                }
+
+                pickupObject = null;
+            }
+
             else Reload();
         }
     }
@@ -218,6 +256,61 @@ public class PlayerController : MonoBehaviour
         if (context.performed)
         {
 
+        }
+    }
+
+    public void Scroll(InputAction.CallbackContext context)
+    {
+        
+        if (context.performed)
+        {
+
+            ItemNode oldItem = heldItem;
+            ItemNode newItem = null;
+            
+            if (context.ReadValue<float>() > 0) //assign newItem depending on the scroll direction
+            {
+                newItem = oldItem.next;
+            }
+            else
+            {
+                newItem = oldItem.previous;
+            }
+
+            if ( oldItem != null && newItem != null) //disable the old item
+            {
+                oldItem.data.GetComponent<MeshRenderer>().enabled = false;
+            }
+            if (newItem != null) //enable the new item
+            {
+                newItem.data.GetComponent<MeshRenderer>().enabled = true;
+            }
+
+            if (newItem != null) heldItem = newItem; //set the currently held item to be the new one
+            
+        }
+    }
+
+    public void DropItem(InputAction.CallbackContext context)
+    {
+        if (context.performed)
+        {
+            pickupObject.GetComponent<Rigidbody>().isKinematic = false;
+            pickupObject.GetComponent<Collider>().enabled = true;
+            pickupObject.GetComponent<MeshRenderer>().enabled = true;
+            pickupObject.transform.parent = null;
+            pickupObject.transform.position = transform.position;
+            pickupObject.transform.rotation = Quaternion.identity;
+
+            if(heldItem.previous != null) heldItem.previous.Remove(1); //the main case
+            else if(heldItem.next == null) heldItem = null;  //edge case wherin the dropped item is the last item in the inventory
+            else            //really obnoxious edge case wherin the dropped item is the head node but there are other items in the list still
+            {
+                head = heldItem.next;
+                head.previous.next = null;
+                head.previous = null;
+                //In hindsight, I should've made a node class, then a secondary linkedlist class that had all the functions and managed all these weird edge cases
+            }
         }
     }
 

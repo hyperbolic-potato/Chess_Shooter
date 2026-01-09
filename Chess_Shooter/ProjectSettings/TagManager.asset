@@ -22,6 +22,7 @@ TagManager:
   - Navmesh
   - PlayerDamage
   - Curtain
+  - Item
   layers:
   - Default
   - TransparentFX

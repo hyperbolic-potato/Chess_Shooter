@@ -24,9 +24,8 @@ public class GameManager : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        
         curtain = GameObject.FindGameObjectWithTag("Curtain").GetComponent<Image>();
-        if (SceneManager.GetActiveScene().buildIndex >= 1 && SceneManager.sceneCountInBuildSettings - 1 != SceneManager.GetActiveScene().buildIndex)
+        if (SceneManager.GetActiveScene().buildIndex != 0 && SceneManager.sceneCountInBuildSettings - 2 != SceneManager.GetActiveScene().buildIndex)
         {
             player = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerController>();
 
